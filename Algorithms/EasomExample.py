@@ -11,11 +11,11 @@ import random
 def main():
 
     # Define Simulated Annealing Input Parameters
-    t_start = 15000
-    t_end = 20
-    t_decrement = 0.98
+    t_start = 2
+    t_end = 0.1
+    t_decrement = 0.99
     is_geometric = True
-    trials = 200
+    trials = 500
     easom_func = mpf(mf.easom_func, mf.get_function_params("easom_func"))
     easom_func_param_range = [-100, 100, -100, 100]
     prob_func = mpf(mf.s_a_prob_func, mf.get_function_params("s_a_prob_func"))
