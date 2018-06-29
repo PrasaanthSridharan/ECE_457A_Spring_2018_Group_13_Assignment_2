@@ -51,6 +51,7 @@ class SimulatedAnnealer (object):
 
         # Initialize annealing object iteration parameters
         x_c = np.zeros(self.anneal_obj.param_count)  # current
+        x_b = np.copy(x_c)                           # best
         x_a = np.zeros(self.anneal_obj.param_count)  # aspired
 
         for temp in self.t_range:
@@ -60,8 +61,11 @@ class SimulatedAnnealer (object):
                 if self.__calc_prob_accept(x_c, x_a, temp):
                     x_c = x_a
 
-        print("Best Objective:", self.anneal_obj.func(x_c))
-        print("Best Solution:", x_c)
+                if self.anneal_obj.func(x_c) < self.anneal_obj.func(x_b):
+                    x_b = np.copy(x_c)
+
+        print("Best Objective:", self.anneal_obj.func(x_b))
+        print("Best Solution:", x_b)
 
     # Helper Methods ###################################################################################################
     @staticmethod
@@ -103,7 +107,7 @@ class SimulatedAnnealer (object):
 
         for idx in range(self.anneal_obj.param_count):
             x_a[idx] = x_c[idx] + (random.random() - 0.5) * multiplier
-            min(max(x_a[idx], self.anneal_obj_range[2*idx]), self.anneal_obj_range[2*idx+1])
+            x_a[idx] = min(max(x_a[idx], self.anneal_obj_range[2*idx]), self.anneal_obj_range[2*idx+1])
 
         return x_a
 
