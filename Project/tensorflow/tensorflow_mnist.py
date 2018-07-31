@@ -46,15 +46,15 @@ class TensorFlowMNIST:
 
         self.model.compile(optimizer=self.tf_opt, loss=self.tf_loss, metrics=self.tf_met)
 
-    def train(self):
+    def train(self, verbose=2):
         """
         Train and evaluate the tensor flow model
 
         :return: Get the evaluated model loss and accuracy
         """
 
-        self.model.fit(self.x_train, self.y_train, epochs=self.tf_ep)
-        return self.model.evaluate(self.x_test, self.y_test)
+        self.model.fit(self.x_train, self.y_train, epochs=self.tf_ep, verbose=verbose)
+        return self.model.evaluate(self.x_test, self.y_test, verbose=verbose)
 
     @staticmethod
     def __load_data(tf_data):
@@ -77,7 +77,7 @@ class TensorFlowMNIST:
 if __name__ == "__main__":
     """
     THIS IS TEST CODE, achieves ~93% test accuracy.
-    
+
     For applying the metaheuristics, you should consider the following parameters:
         1. # of Hidden Layers
         2. # of nodes per hidden layer
@@ -91,11 +91,11 @@ if __name__ == "__main__":
     hid_lay = 1
     hid_node = [512]
     hid_act = [tf.nn.relu]
-    tf_ep = 5
+    tf_ep = 3
     tf_opt = tf.keras.optimizers.SGD(lr=0.01, momentum=0.0, decay=0.0, nesterov=False)
 
     tf_model = TensorFlowMNIST(data_path, hid_lay, hid_node, hid_act, tf_ep)
-    loss, accuracy = tf_model.train()
+    loss, accuracy = tf_model.train(2)
 
     print("Loss:", loss)
     print("Accuracy:", accuracy)
